@@ -12,6 +12,7 @@ public class ordenadores
 {
     final int tamanho_vetor;
     private int[] entrada;
+    private static long stempo;
 
     ordenadores(int tamanho_vetor)
     {
@@ -66,7 +67,8 @@ public class ordenadores
         T[] b = a.clone();
         Boolean flag;
         int tamanho = b.length;
-    
+        
+        long tempo = System.nanoTime();
         do
         {
             flag = false;
@@ -81,7 +83,9 @@ public class ordenadores
                 }
             }
         } while (flag == true);    
-        
+        tempo -= System.nanoTime();
+
+        stempo = tempo*-1;
         return b;
     }
 
@@ -89,7 +93,8 @@ public class ordenadores
     {
         T[] b = a.clone();
         int tamanho = b.length;
-
+        
+        long tempo = System.nanoTime();
         for (int i = 1; i < tamanho; i++)
         {
             T temp = b[i];
@@ -101,9 +106,11 @@ public class ordenadores
             }
 
             b[j] = temp;
-    }
-
-    return b;
+        }
+        tempo -= System.nanoTime();
+        
+        stempo = tempo*-1;
+        return b;
     }
 
     public static <T extends Comparable<T>> T[] selectionsort(T[] a)
@@ -112,7 +119,8 @@ public class ordenadores
         int tamanho = b.length;
         T min = b[0]; 
         int i_min = 0;
-
+        
+        long tempo = System.nanoTime();
         for(int i = 0; i > tamanho ; i++)
         {
             for(int j = 0 ; j < tamanho; j++)
@@ -124,7 +132,9 @@ public class ordenadores
             b[i_min] = b[i];
             b[i] = min;
         }
-
+        tempo -= System.nanoTime();
+        
+        stempo = tempo*-1;
         return b;
     }
 
@@ -133,6 +143,8 @@ public class ordenadores
         int[] b = a.clone();
         int[] bs = new int[b.length];
         int max = 0;
+
+        long tempo = System.nanoTime();
         for(int i = 0; i < b.length ; i++)
             if (b[i] > max)
                 max = b[i];
@@ -151,7 +163,9 @@ public class ordenadores
             bs[s[b[i]]-1] = b[i];
             s[b[i]] -= 1;
         }
-            
+        tempo -= System.nanoTime();
+        
+        stempo = tempo*-1;
         return bs;
     }
 
@@ -160,7 +174,8 @@ public class ordenadores
         int[] b = a.clone();
         int[] bs = new int[b.length];
         int[] s = new int[max+1];
-
+        
+        long tempo = System.nanoTime();
         for(int i = 0; i < b.length ; i++)
             s[b[i]] += 1;
 
@@ -172,7 +187,9 @@ public class ordenadores
             bs[s[b[i]]-1] = b[i];
             s[b[i]] -= 1;
         }
-            
+        tempo -= System.nanoTime();
+
+        stempo = tempo*-1;
         return bs;
     }
 
@@ -195,7 +212,9 @@ public class ordenadores
 
     public static void outprint(Integer[] in, String prefix)
     {
-        System.out.print("\n"+prefix);
+
+        long tempo = stempo/1000; 
+        System.out.print("\n"+prefix+tempo+" (ms) -");
         for (int i = 0 ; i < in.length ; i++)
             System.out.print(in[i]+" ");
     }
@@ -243,6 +262,8 @@ public class ordenadores
             
             saida_int = countsort(ordenar.entrada);
             outprint(int_to_ger(saida_int), "S_c: ");
+
+            System.out.println();
         }  
     }
 }
