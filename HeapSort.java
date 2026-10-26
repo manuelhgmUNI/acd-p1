@@ -1,17 +1,27 @@
 public class HeapSort {
-    public static void HeapSort(int[] vetor) {
-        int n = vetor.length;
+    private static long heaptempo;
+    public static long temp()
+    {
+        return heaptempo;
+    }
 
+    public static int[] heapSort(int[] vetor) {
+        int n = vetor.length;
+        int [] cvetor = vetor.clone();
+
+        long tempo = System.nanoTime();
         for (int i = n / 2 - 1; i >= 0; i--) {
-            ajustarheap(vetor, n, i);
+            ajustarheap(cvetor, n, i);
         }
 
         for (int i = n - 1; i >= 0; i--) {
-            int temp = vetor[0];
-            vetor[0] = vetor[n];
-            vetor[n] = temp;
-            ajustarheap(vetor, n, 0);
+            int temp = cvetor[0];
+            cvetor[0] = cvetor[i];
+            cvetor[i] = temp;
+            ajustarheap(cvetor, i, 0);
         }
+        heaptempo = System.nanoTime() - tempo;
+        return cvetor;
     }
 
     public static void ajustarheap(int[] vetor, int n, int pai) {

@@ -222,7 +222,7 @@ public class ordenadores
     {
 
         long tempo = stempo; 
-        System.out.print("\n"+prefix+tempo+" (ms) | ");
+        System.out.print("\n"+prefix+tempo+" (ns) | ");
         for (int i = 0 ; i < in.length ; i++)
         {
             System.out.print(in[i]+" ");
@@ -288,9 +288,18 @@ public class ordenadores
 
             saida_int = ordenar.entrada.clone();
             QuickSort.quickSort(saida_int);
+            sobrescrever_tempo(QuickSort.temp());
             outprint(int_to_ger(saida_int), "S_qu: ", max);
 
+            saida_int = HeapSort.heapSort(ordenar.entrada);
+            sobrescrever_tempo(HeapSort.temp());
+            outprint(int_to_ger(saida_int), "S_he: ", max);
 
+            saida = entrada.clone();
+            long tempo = System.nanoTime();
+            MergeSort.mergesort(saida);
+            sobrescrever_tempo(System.nanoTime() -tempo);
+            outprint(saida, "S_me: ", max);
 
 
             System.out.println();

@@ -1,7 +1,7 @@
 public class QuickSort {
     private static long qtempo;
 
-    public static long tempo()
+    public static long temp()
     {
         return qtempo;
     }
