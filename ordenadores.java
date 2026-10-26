@@ -301,7 +301,7 @@ public class ordenadores
             sobrescrever_tempo(System.nanoTime() -tempo);
             outprint(saida, "S_me: ", max);
 
-
+ 
             System.out.println();
         }  
     }
