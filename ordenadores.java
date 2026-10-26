@@ -1,4 +1,3 @@
-//package acd.projetos.projeto-1;
 /*
 compareto
 10 | 20 | -1
@@ -62,6 +61,12 @@ public class ordenadores
             
         return B;
     }
+
+    public static void sobrescrever_tempo(long tempo)
+    {
+        stempo = tempo;
+    }
+
     public static <T extends Comparable<T>> T[] bubbleSort(T[] a)
     {
         T[] b = a.clone();
@@ -117,20 +122,23 @@ public class ordenadores
     {
         T[] b = a.clone();
         int tamanho = b.length;
-        T min = b[0]; 
-        int i_min = 0;
         
         long tempo = System.nanoTime();
-        for(int i = 0; i > tamanho ; i++)
+        for (int i = 0; i < tamanho - 1; i++)
         {
-            for(int j = 0 ; j < tamanho; j++)
-            if ( min.compareTo(b[j]) > 0)
+            int i_min = i;
+
+            for (int j = i + 1; j < tamanho; j++)
             {
-                min = b[j];
-                i_min = j;
+                if (b[j].compareTo(b[i_min]) < 0)
+                {
+                    i_min = j;
+                }
             }
-            b[i_min] = b[i];
-            b[i] = min;
+
+            T temp = b[i];
+            b[i] = b[i_min];
+            b[i_min] = temp;
         }
         tempo -= System.nanoTime();
         
@@ -210,18 +218,26 @@ public class ordenadores
         return out;
     }
 
-    public static void outprint(Integer[] in, String prefix)
+    public static void outprint(Integer[] in, String prefix, int max)
     {
 
-        long tempo = stempo/1000; 
-        System.out.print("\n"+prefix+tempo+" (ms) -");
+        long tempo = stempo; 
+        System.out.print("\n"+prefix+tempo+" (ms) | ");
         for (int i = 0 ; i < in.length ; i++)
+        {
             System.out.print(in[i]+" ");
+            if (i == max-1)
+            {
+                System.out.print(". . . (+"+(in.length-i-1)+")");
+                break;
+            }
+        }
     }
 
     public static void main(String[] args) {
      
-        int tam = 5;
+        int tam = 20;
+        int max = 15;
 
         ordenadores ordenar = new ordenadores(tam);
         Integer[] entrada;
@@ -249,19 +265,33 @@ public class ordenadores
             }
             entrada = ordenar.entrada_atual();
             
-            outprint(entrada, "E  : ");
+            sobrescrever_tempo(0);
+            outprint(entrada, "E   : ", max);
             
             saida = bubbleSort(entrada);
-            outprint(saida, "S_b: ");
+            outprint(saida, "S_bo: ", max);
             
             saida = insertionsort(entrada);
-            outprint(saida, "S_i: ");      
+            outprint(saida, "S_in: ", max);      
             
             saida = selectionsort(entrada);
-            outprint(saida, "S_s: ");
+            outprint(saida, "S_se: ", max);
             
             saida_int = countsort(ordenar.entrada);
-            outprint(int_to_ger(saida_int), "S_c: ");
+            outprint(int_to_ger(saida_int), "S_co: ", max);
+
+            // ============================================
+
+            saida = ShellSort.shellsort(entrada);
+            sobrescrever_tempo(ShellSort.temp());
+            outprint(saida, "S_sh: ", max);
+
+            saida_int = ordenar.entrada.clone();
+            QuickSort.quickSort(saida_int);
+            outprint(int_to_ger(saida_int), "S_qu: ", max);
+
+
+
 
             System.out.println();
         }  
