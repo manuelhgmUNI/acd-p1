@@ -201,10 +201,51 @@ public class ordenadores
         return bs;
     }
 
-    public static int[] radix(int[] a)
+    public static void rad_countsort(int[] a ,int casa) 
     {
-        int[] b = a;
+        int[] bs = new int[a.length];
+        int[] s = new int[10];
 
+        for (int i = 0; i < a.length; i++) 
+        {
+            int digito = (a[i] / casa) % 10;
+            s[digito]++;
+        }
+
+        for (int i = 1; i < s.length; i++)
+            s[i] += s[i - 1];
+
+        for (int i = a.length - 1; i >= 0; i--) 
+        {
+            int digito = (a[i] / casa) % 10;
+            bs[s[digito] - 1] = a[i];
+            s[digito]--;
+        }
+
+        for (int i = 0; i < a.length; i++)
+            a[i] = bs[i];
+    }
+
+    public static int[] radix(int[] a) 
+    {
+        if (a.length == 0)
+            return a;
+
+        int[] b = a.clone();
+        int max = b[0];
+
+        long tempo = System.nanoTime();
+        for (int i = 1; i < b.length; i++) 
+            {
+            if (b[i] > max)
+                max = b[i];
+        }
+
+        for (int casa = 1; max / casa > 0; casa *= 10) {
+            rad_countsort(b ,casa);
+        }
+
+        stempo = System.nanoTime() - tempo;
         return b;
     }
     public static Integer[] int_to_ger(int[] in)
@@ -279,6 +320,9 @@ public class ordenadores
             
             saida_int = countsort(ordenar.entrada);
             outprint(int_to_ger(saida_int), "S_co: ", max);
+
+            saida_int = radix(ordenar.entrada);
+            outprint(int_to_ger(saida_int), "S_ra: ", max);
 
             // ============================================
 
