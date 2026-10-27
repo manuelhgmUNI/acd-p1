@@ -288,16 +288,16 @@ public class ordenadores
             
                 default:break;
             }
-            System.out.println("Bubble: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Insertion: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Selection: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Counting: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Radix: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Bubble    | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Insertion | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Selection | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Counting  | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Radix     | "+mtempo[estado][T_ID++]+" (ns)");
             T_ID++;
-            System.out.println("Shell: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Quick: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Heap: "+mtempo[estado][T_ID++]+" (ns)");
-            System.out.println("Merge: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Shell     | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Quick     | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Heap      | "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Merge     | "+mtempo[estado][T_ID++]+" (ns)");
         }
 
         System.out.println();
