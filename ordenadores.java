@@ -12,6 +12,7 @@ public class ordenadores
     final int tamanho_vetor;
     private int[] entrada;
     private static long stempo;
+    private static long mtempo[][] = new long[3][10];
 
     ordenadores(int tamanho_vetor)
     {
@@ -259,6 +260,51 @@ public class ordenadores
         return out;
     }
 
+    public static long save_tempo(int estado, int T_ID)
+    {
+        if (stempo <= 0)
+            return -1;
+
+        if (mtempo[estado][T_ID] == 0)
+            mtempo[estado][T_ID] = stempo;
+        else
+            mtempo[estado][T_ID] = (mtempo[estado][T_ID] + stempo) / 2;
+
+        return mtempo[estado][T_ID];
+    }
+
+    public static void temprint()
+    {
+        for (int estado = 0 ; estado < 3 ; estado++)
+        {
+            int T_ID = 0;
+            switch (estado) 
+            {
+                case 0: System.out.println("-------------= ordenado =-------------"); break;
+
+                case 1: System.out.println("-------------= aleatorio =-------------"); break;
+
+                case 2: System.out.println("-------------= desordenado =-------------"); break;
+            
+                default:break;
+            }
+            System.out.println("Bubble: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Insertion: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Selection: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Counting: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Radix: "+mtempo[estado][T_ID++]+" (ns)");
+            T_ID++;
+            System.out.println("Shell: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Quick: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Heap: "+mtempo[estado][T_ID++]+" (ns)");
+            System.out.println("Merge: "+mtempo[estado][T_ID++]+" (ns)");
+        }
+
+        System.out.println();
+
+        
+    }
+
     public static void outprint(Integer[] in, String prefix, int max)
     {
 
@@ -285,68 +331,83 @@ public class ordenadores
         Integer[] saida;
         int[] saida_int;
         
-        for (int estado = 0 ; estado < 3 ; estado++)
-        {
-            switch (estado) 
+        for (int i = 0 ; i < 3; i++)
+            for (int estado = 0 ; estado < 3 ; estado++)
             {
-                case 0:
-                    ordenar.entrada_ordenada();
-                    break;
+                switch (estado) 
+                {
+                    case 0:
+                        ordenar.entrada_ordenada();
+                        break;
 
-                case 1:
-                    ordenar.entrada_aleatoria(tam);
-                    break;
+                    case 1:
+                        ordenar.entrada_aleatoria(tam);
+                        break;
 
-                case 2:
-                    ordenar.entrada_desordenada();
-                    break;
-            
-                default:
-                    break;
+                    case 2:
+                        ordenar.entrada_desordenada();
+                        break;
+                
+                    default:
+                        break;
+                }
+                entrada = ordenar.entrada_atual();
+                
+                sobrescrever_tempo(0);
+                outprint(entrada, "E   : ", max);
+                int T_ID = 0;
+                
+                saida = bubbleSort(entrada);
+                outprint(saida, "S_bo: ", max);
+                save_tempo(estado, T_ID++); // 0
+                
+                saida = insertionsort(entrada);
+                outprint(saida, "S_in: ", max);      
+                save_tempo(estado, T_ID++); // 1
+
+                saida = selectionsort(entrada);
+                outprint(saida, "S_se: ", max);
+                save_tempo(estado, T_ID++); // 2 
+
+                saida_int = countsort(ordenar.entrada);
+                outprint(int_to_ger(saida_int), "S_co: ", max);
+                save_tempo(estado, T_ID++); // 3
+
+                saida_int = radix(ordenar.entrada);
+                outprint(int_to_ger(saida_int), "S_ra: ", max);
+                save_tempo(estado, T_ID++); // 4
+
+                // Bucket T_ID = 5
+                T_ID++;
+
+                // ============================================
+
+                saida = ShellSort.shellsort(entrada);
+                sobrescrever_tempo(ShellSort.temp());
+                outprint(saida, "S_sh: ", max);
+                save_tempo(estado, T_ID++); // 6
+
+                saida_int = ordenar.entrada.clone();
+                QuickSort.quickSort(saida_int);
+                sobrescrever_tempo(QuickSort.temp());
+                outprint(int_to_ger(saida_int), "S_qu: ", max);
+                save_tempo(estado, T_ID++); // 7
+
+                saida_int = HeapSort.heapSort(ordenar.entrada);
+                sobrescrever_tempo(HeapSort.temp());
+                outprint(int_to_ger(saida_int), "S_he: ", max);
+                save_tempo(estado, T_ID++); // 8
+
+                saida = entrada.clone();
+                long tempo = System.nanoTime();
+                MergeSort.mergesort(saida);
+                sobrescrever_tempo(System.nanoTime() -tempo);
+                outprint(saida, "S_me: ", max);
+                save_tempo(estado, T_ID); // 9
+
+    
+                System.out.println();
             }
-            entrada = ordenar.entrada_atual();
-            
-            sobrescrever_tempo(0);
-            outprint(entrada, "E   : ", max);
-            
-            saida = bubbleSort(entrada);
-            outprint(saida, "S_bo: ", max);
-            
-            saida = insertionsort(entrada);
-            outprint(saida, "S_in: ", max);      
-            
-            saida = selectionsort(entrada);
-            outprint(saida, "S_se: ", max);
-            
-            saida_int = countsort(ordenar.entrada);
-            outprint(int_to_ger(saida_int), "S_co: ", max);
-
-            saida_int = radix(ordenar.entrada);
-            outprint(int_to_ger(saida_int), "S_ra: ", max);
-
-            // ============================================
-
-            saida = ShellSort.shellsort(entrada);
-            sobrescrever_tempo(ShellSort.temp());
-            outprint(saida, "S_sh: ", max);
-
-            saida_int = ordenar.entrada.clone();
-            QuickSort.quickSort(saida_int);
-            sobrescrever_tempo(QuickSort.temp());
-            outprint(int_to_ger(saida_int), "S_qu: ", max);
-
-            saida_int = HeapSort.heapSort(ordenar.entrada);
-            sobrescrever_tempo(HeapSort.temp());
-            outprint(int_to_ger(saida_int), "S_he: ", max);
-
-            saida = entrada.clone();
-            long tempo = System.nanoTime();
-            MergeSort.mergesort(saida);
-            sobrescrever_tempo(System.nanoTime() -tempo);
-            outprint(saida, "S_me: ", max);
-
- 
-            System.out.println();
-        }  
+        temprint();
     }
 }
