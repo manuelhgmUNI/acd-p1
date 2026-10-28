@@ -421,7 +421,7 @@ public class ordenadores
             Integer[] entrada;
             Integer[] saida;
             int[] saida_int;
-            System.out.println("\n\naa"+tam_vetor+"\n\n");
+            System.out.println("\n\n- == -"+tam_vetor+"- == -\n\n");
     
             for (int i = 0 ; i < exatidao; i++)
                 for (int estado = 0 ; estado < 3 ; estado++)
