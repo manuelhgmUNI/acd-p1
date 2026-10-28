@@ -293,7 +293,7 @@ public class ordenadores
             System.out.println("Selection | "+mtempo[estado][T_ID++]+" (ns)");
             System.out.println("Counting  | "+mtempo[estado][T_ID++]+" (ns)");
             System.out.println("Radix     | "+mtempo[estado][T_ID++]+" (ns)");
-            T_ID++;
+            System.out.println("Bucket    | "+mtempo[estado][T_ID++]+" (ns)");
             System.out.println("Shell     | "+mtempo[estado][T_ID++]+" (ns)");
             System.out.println("Quick     | "+mtempo[estado][T_ID++]+" (ns)");
             System.out.println("Heap      | "+mtempo[estado][T_ID++]+" (ns)");
@@ -377,10 +377,14 @@ public class ordenadores
                 outprint(int_to_ger(saida_int), "S_ra: ", max);
                 save_tempo(estado, T_ID++); // 4
 
-                // Bucket T_ID = 5
-                T_ID++;
-
                 // ============================================
+    
+                saida_int = ordenar.entrada.clone();
+                BucketSort.bucketSort(saida_int);
+                sobrescrever_tempo(QuickSort.temp());
+                outprint(int_to_ger(saida_int), "S_bu: ", max);
+                save_tempo(estado, T_ID++); // 5
+
 
                 saida = ShellSort.shellsort(entrada);
                 sobrescrever_tempo(ShellSort.temp());
